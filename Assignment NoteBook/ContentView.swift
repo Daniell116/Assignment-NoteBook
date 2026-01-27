@@ -18,7 +18,14 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(toDoHomework) { homework in
-                    Text(homework.description)
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(homework.priority).font(.headline)
+                            Text(homework.description)
+                        }
+                        Spacer()
+                        Text(homework.dueDate, style: .date)
+                    }
                 }
                 .onMove(perform: { indices, newOffset in
                     toDoHomework.move(fromOffsets: indices, toOffset: newOffset)
