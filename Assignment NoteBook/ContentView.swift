@@ -8,29 +8,39 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State private var assignmentList = ToDoHomework()
+  @State private var toDoHomework = ToDoHomework()
+    @State private var  showingAddHomeworkView = false
     var body: some View {
         NavigationView {
             List {
-                ForEach(AssignmentList.items) { homework in
+                ForEach(toDoHomework.items) { work in
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(homework.priority).font(.headline)
-                            Text(homework.description)
+                            Text(work.priority).font(.headline)
+                            Text(work.description)
                         }
                         Spacer()
-                        Text(homework.dueDate, style: .date)
+                        Text(work.dueDate, style: .date)
                     }
                 }
                 .onMove(perform: { indices, newOffset in
-                    AssignmentList.items.move(fromOffsets: indices, toOffset: newOffset)
+                    toDoHomework.items.move(fromOffsets: indices, toOffset: newOffset)
                 })
                 .onDelete(perform: { IndexSet in
-                    AssignmentList.items.remove(atOffsets: IndexSet)
+                    toDoHomework.items.remove(atOffsets: IndexSet)
                 })
             }
+            .sheet(isPresented: $showingAddHomeworkView) {
+                AddHomeWorkView()
+                    .environment(toDoHomework)
+            }
             .navigationBarTitle("Homework", displayMode: .inline)
-            .navigationBarItems(leading: EditButton())
+            .navigationBarItems(leading: EditButton(),
+                                trailing: Button(action: {
+                showingAddHomeworkView = true
+            }, label: {
+                Image(systemName: "plus")
+            }))
         }
     }
 }
@@ -38,7 +48,7 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-struct ToDoHomework: Identifiable {
+struct toDoHomework: Identifiable {
     var id = UUID()
     var priority = String()
     var description = String()
