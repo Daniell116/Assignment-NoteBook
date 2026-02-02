@@ -9,8 +9,9 @@ import Foundation
 
 @Observable
 class ToDoHomework {
-    var items = [toDoHomework(priority: "easy", description: "Finish Swift project", dueDate: Date()),
-                 toDoHomework(priority: "Medium", description: "Do Math homework", dueDate: Date()),
-                 toDoHomework(priority: "Hard", description: "Finish history homework", dueDate: Date())]
+    var items = [toDoHomework(priority: "math", description: "Finish algebra homework", dueDate: Date()),
+                 toDoHomework(priority: "science", description: "finish biology project", dueDate: Date()),
+                 toDoHomework(priority: "english", description: "Finish reading", dueDate: Date()),
+                 toDoHomework(priority: "other", description: "", dueDate: Date())]
  }
  
