@@ -12,35 +12,42 @@ struct ContentView: View {
     @State private var  showingAddHomeworkView = false
     var body: some View {
         NavigationView {
-            List {
-                ForEach(toDoHomework.items) { work in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(work.priority).font(.headline)
-                            Text(work.description)
+                List {
+                    ForEach(toDoHomework.items) { work in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(work.priority).font(.headline)
+                                    .foregroundColor(.black)
+                                Text(work.description)
+                                    .foregroundColor(.black)
+                            }
+                            Spacer()
+                            Text(work.dueDate, style: .date)
+                                .foregroundColor(.red)
                         }
-                        Spacer()
-                        Text(work.dueDate, style: .date)
+                        .listRowBackground(Color.black.opacity(0.2))
                     }
+                    .onMove(perform: { indices, newOffset in
+                        toDoHomework.items.move(fromOffsets: indices, toOffset: newOffset)
+                    })
+                    .onDelete(perform: { IndexSet in
+                        toDoHomework.items.remove(atOffsets: IndexSet)
+                    })
                 }
-                .onMove(perform: { indices, newOffset in
-                    toDoHomework.items.move(fromOffsets: indices, toOffset: newOffset)
-                })
-                .onDelete(perform: { IndexSet in
-                    toDoHomework.items.remove(atOffsets: IndexSet)
-                })
-            }
-            .sheet(isPresented: $showingAddHomeworkView) {
-                AddHomeWorkView()
-                    .environment(toDoHomework)
-            }
-            .navigationBarTitle("Homework", displayMode: .inline)
-            .navigationBarItems(leading: EditButton(),
-                                trailing: Button(action: {
-                showingAddHomeworkView = true
-            }, label: {
-                Image(systemName: "plus")
-            }))
+                .background(Color(.systemTeal))
+                .scrollContentBackground(.hidden)
+                .sheet(isPresented: $showingAddHomeworkView) {
+                    AddHomeWorkView()
+                        .environment(toDoHomework)
+                }
+                .navigationBarTitle("Homework", displayMode: .inline)
+                .navigationBarItems(leading: EditButton(),
+                                    trailing: Button(action: {
+                    showingAddHomeworkView = true
+                }, label: {
+                    Image(systemName: "plus")
+                }))
+                
         }
     }
 }

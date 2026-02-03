@@ -25,6 +25,8 @@ struct AddHomeWorkView: View {
                 TextField("Description", text: $description)
                 DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.cyan.opacity(0.2))
             .navigationBarTitle("Add New To-Do Item", displayMode: .inline)
             .navigationBarItems(trailing: Button("Save") {
                 if priority.count > 0, description.count > 0 {
