@@ -48,7 +48,7 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-struct toDoHomework: Identifiable {
+struct toDoHomework: Identifiable, Codable {
     var id = UUID()
     var priority = String()
     var description = String()
