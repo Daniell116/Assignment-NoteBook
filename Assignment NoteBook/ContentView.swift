@@ -8,42 +8,42 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State private var toDoHomework = ToDoHomework()
-    @State private var  showingAddHomeworkView = false
+  @State private var assigmentHomeworks = Assigment()
+    @State private var  addingNewHomework = false
     var body: some View {
         NavigationView {
                 List {
-                    ForEach(toDoHomework.items) { work in
+                    ForEach(assigmentHomeworks.homework) { work in
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(work.priority).font(.headline)
+                                Text(work.course).font(.headline)
                                     .foregroundColor(.black)
                                 Text(work.description)
                                     .foregroundColor(.black)
                             }
                             Spacer()
-                            Text(work.dueDate, style: .date)
+                            Text(work.date, style: .date)
                                 .foregroundColor(.red)
                         }
                         .listRowBackground(Color.black.opacity(0.2))
                     }
-                    .onMove(perform: { indices, newOffset in
-                        toDoHomework.items.move(fromOffsets: indices, toOffset: newOffset)
+                    .onMove(perform: { homeworklist, list in
+                        assigmentHomeworks.homework.move(fromOffsets: homeworklist, toOffset: list)
                     })
-                    .onDelete(perform: { IndexSet in
-                        toDoHomework.items.remove(atOffsets: IndexSet)
+                    .onDelete(perform: { removeHomework in
+                        assigmentHomeworks.homework.remove(atOffsets: removeHomework)
                     })
                 }
                 .background(Color(.systemTeal))
                 .scrollContentBackground(.hidden)
-                .sheet(isPresented: $showingAddHomeworkView) {
-                    AddHomeWorkView()
-                        .environment(toDoHomework)
+                .sheet(isPresented: $addingNewHomework) {
+                    AssignmentView()
+                        .environment(assigmentHomeworks)
                 }
                 .navigationBarTitle("Homework", displayMode: .inline)
                 .navigationBarItems(leading: EditButton(),
                                     trailing: Button(action: {
-                    showingAddHomeworkView = true
+                    addingNewHomework = true
                 }, label: {
                     Image(systemName: "plus")
                 }))
@@ -55,10 +55,10 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-struct toDoHomework: Identifiable, Codable {
+struct assigmentHomework: Identifiable, Codable {
     var id = UUID()
-    var priority = String()
+    var course = String()
     var description = String()
-    var dueDate = Date()
+    var date = Date()
     
 }
