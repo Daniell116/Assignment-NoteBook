@@ -12,7 +12,7 @@ struct AssignmentView: View {
     @Environment(\.dismiss) var homeworkDismiss
     static let subject = ["Math", "Science", "Einglish", "Other"]
     @State private var course = ""
-    @State private var homeworkList = ""
+    @State private var description = ""
     @State private var date = Date()
     var body: some View {
         NavigationView {
@@ -22,15 +22,15 @@ struct AssignmentView: View {
                     Text(subjects)
                     }
                 }
-                TextField("Assigment", text: $homeworkList)
+                TextField("Assigment", text: $description)
                 DatePicker("Date", selection: $date, displayedComponents: .date)
             }
             .scrollContentBackground(.hidden)
             .background(Color.cyan.opacity(0.2))
             .navigationBarTitle("Add New Assignment", displayMode: .inline)
             .navigationBarItems(trailing: Button("Save Assignemnts") {
-                if homeworkList.count > 0, homeworkList.count > 0 {
-                    let homework = assigmentHomework(course: course, homeworkList: homeworkList, date: date)
+                if description.count > 0, description.count > 0 {
+                    let homework = assigmentHomework(course: course, description: description, date: date)
                     assigmentHomeworks.homework.append(homework)
                     homeworkDismiss()
                 }
